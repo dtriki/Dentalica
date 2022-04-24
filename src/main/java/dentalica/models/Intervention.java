@@ -5,11 +5,11 @@ import java.time.Instant;
 public class Intervention {
 
     private Integer id;
-    private Integer userId;
+    private Integer patientId;
     private String type;
     private String teeth;
     private String price;
-    private Instant date;
+    private Instant intervenedAt;
     private Instant createdAt;
 
     public Integer getId() {
@@ -20,12 +20,12 @@ public class Intervention {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getPatientId() {
+        return patientId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setPatientId(Integer patientId) {
+        this.patientId = patientId;
     }
 
     public String getType() {
@@ -52,12 +52,12 @@ public class Intervention {
         this.price = price;
     }
 
-    public Instant getDate() {
-        return date;
+    public Instant getIntervenedAt() {
+        return intervenedAt;
     }
 
-    public void setDate(Instant date) {
-        this.date = date;
+    public void setIntervenedAt(Instant intervenedAt) {
+        this.intervenedAt = intervenedAt;
     }
 
     public Instant getCreatedAt() {
@@ -72,11 +72,11 @@ public class Intervention {
     public String toString() {
         return "Intervention{" +
                 "id=" + id +
-                ", userId=" + userId +
+                ", patientId=" + patientId +
                 ", type='" + type + '\'' +
                 ", teeth='" + teeth + '\'' +
                 ", price='" + price + '\'' +
-                ", date=" + date +
+                ", intervenedAt=" + intervenedAt +
                 ", createdAt=" + createdAt +
                 '}';
     }
