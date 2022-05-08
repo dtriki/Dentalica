@@ -4,9 +4,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<VBox fx:id="vBoxAddPatient" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-      minWidth="-Infinity" prefHeight="471.0" prefWidth="371.0" styleClass="btn" xmlns="http://javafx.com/javafx/18"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="dentalica.controllers.patient.AddPatientController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="471.0" prefWidth="371.0" styleClass="btn" xmlns="http://javafx.com/javafx/18"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="dentalica.controllers.patient.EditPatientController">
     <children>
         <HBox prefHeight="54.0" prefWidth="384.0">
             <children>
@@ -59,7 +59,7 @@
                         <Font name="Century Gothic" size="21.0"/>
                     </font>
                 </Text>
-                <DatePicker fx:id="birthFld" prefHeight="42.0" prefWidth="196.0"/>
+                <DatePicker fx:id="birthFld" prefHeight="26.0" prefWidth="196.0"/>
             </children>
             <VBox.margin>
                 <Insets top="17.0"/>

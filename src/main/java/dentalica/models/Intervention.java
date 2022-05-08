@@ -1,6 +1,7 @@
 package dentalica.models;
 
 import java.time.Instant;
+import java.time.LocalDate;
 
 public class Intervention {
 
@@ -8,9 +9,19 @@ public class Intervention {
     private Integer patientId;
     private String type;
     private String teeth;
-    private String price;
-    private Instant intervenedAt;
+    private Integer price;
+    private LocalDate intervenedAt;
+    private String payed;
     private Instant createdAt;
+
+    public Intervention(Integer id, String type, String teeth, Integer price, LocalDate intervenedAt, String payed) {
+        this.id = id;
+        this.type = type;
+        this.teeth = teeth;
+        this.price = price;
+        this.intervenedAt = intervenedAt;
+        this.payed = payed;
+    }
 
     public Integer getId() {
         return id;
@@ -44,20 +55,28 @@ public class Intervention {
         this.teeth = teeth;
     }
 
-    public String getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
-    public Instant getIntervenedAt() {
+    public LocalDate getIntervenedAt() {
         return intervenedAt;
     }
 
-    public void setIntervenedAt(Instant intervenedAt) {
+    public void setIntervenedAt(LocalDate intervenedAt) {
         this.intervenedAt = intervenedAt;
+    }
+
+    public String getPayed() {
+        return payed;
+    }
+
+    public void setPayed(String payed) {
+        this.payed = payed;
     }
 
     public Instant getCreatedAt() {
@@ -77,6 +96,7 @@ public class Intervention {
                 ", teeth='" + teeth + '\'' +
                 ", price='" + price + '\'' +
                 ", intervenedAt=" + intervenedAt +
+                ", payed=" + payed +
                 ", createdAt=" + createdAt +
                 '}';
     }

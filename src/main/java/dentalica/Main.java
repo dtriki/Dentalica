@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class Main extends Application {
 
-    private static String TITLE = "Dentalica";
+    private static String TITLE = "Dentallica";
     private static String HOME_PATH = "/views/home.fxml";
 
     @Override

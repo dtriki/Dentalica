@@ -1,4 +1,4 @@
-package dentalica.controllers;
+package dentalica.controllers.dashboard;
 
 import dentalica.Constants;
 import javafx.fxml.FXMLLoader;
