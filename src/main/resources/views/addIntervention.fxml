@@ -8,7 +8,7 @@
       prefHeight="471.0" prefWidth="371.0" styleClass="btn" xmlns="http://javafx.com/javafx/18"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="dentalica.controllers.intervention.AddInterventionController">
     <children>
-        <HBox prefHeight="83.0" prefWidth="355.0">
+        <HBox prefHeight="38.0" prefWidth="355.0">
             <children>
                 <Text fill="#ea31ac" strokeType="OUTSIDE" strokeWidth="0.0" text="Nova intervencija"
                       wrappingWidth="245.875">
@@ -34,6 +34,27 @@
                     </font>
                 </TextField>
             </children>
+            <VBox.margin>
+                <Insets top="20.0"/>
+            </VBox.margin>
+        </HBox>
+        <HBox alignment="CENTER">
+            <children>
+                <Text fx:id="colDescription" fill="#ea31ac" strokeType="OUTSIDE" strokeWidth="0.0" text="Opis"
+                      wrappingWidth="102.13671875">
+                    <font>
+                        <Font name="Century Gothic" size="21.0"/>
+                    </font>
+                </Text>
+                <TextField fx:id="teethFld1" prefHeight="25.0" prefWidth="358.0">
+                    <font>
+                        <Font name="Century Gothic" size="20.0"/>
+                    </font>
+                </TextField>
+            </children>
+            <VBox.margin>
+                <Insets top="20.0"/>
+            </VBox.margin>
         </HBox>
         <HBox alignment="CENTER">
             <children>

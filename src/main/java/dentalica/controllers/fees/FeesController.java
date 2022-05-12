@@ -110,6 +110,9 @@ public class FeesController implements Initializable {
 
     @FXML
     private void getInterventionsView(MouseEvent mouseEvent) {
+        if (mouseEvent.getClickCount() != 2) {
+            return;
+        }
         var fee = feesTable.getSelectionModel().getSelectedItem();
         var viewPath = Constants.BASE_FXML_URL + Constants.INTERVENTIONS_FXML_URL;
         var loader = new FXMLLoader(getClass().getResource(viewPath));

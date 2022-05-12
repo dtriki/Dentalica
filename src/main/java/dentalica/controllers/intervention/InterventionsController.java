@@ -14,8 +14,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Callback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +40,8 @@ public class InterventionsController implements Initializable {
     private TableView<Intervention> interventionsTable;
     @FXML
     private TableColumn<Intervention, String> colType;
+    @FXML
+    private TableColumn<Intervention, String> colDescription;
     @FXML
     private TableColumn<Intervention, String> colTeeth;
     @FXML
@@ -85,10 +89,32 @@ public class InterventionsController implements Initializable {
             logger.error("Unable to connect to database");
         }
         colType.setCellValueFactory(new PropertyValueFactory<>("type"));
+        colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         colTeeth.setCellValueFactory(new PropertyValueFactory<>("teeth"));
         colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         colIntervenedAt.setCellValueFactory(new PropertyValueFactory<>("intervenedAt"));
         colPayed.setCellValueFactory(new PropertyValueFactory<>("payed"));
+        changeColorForPayedColumn();
+    }
+
+    private void changeColorForPayedColumn() {
+        colPayed.setCellFactory(new Callback<>() {
+            public TableCell call(TableColumn param) {
+                return new TableCell<Intervention, String>() {
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item != null && item.equals("Ne")) {
+                            this.setTextFill(Color.RED);
+                        } else if (item != null && item.equals("Da")) {
+                            this.setTextFill(Color.GREEN);
+                        }
+                        setStyle("-fx-font-weight: bold");
+                        setText(item);
+                    }
+                };
+            }
+        });
     }
 
     private void populateInterventionsTable(ResultSet resultSet) throws SQLException {
@@ -96,6 +122,7 @@ public class InterventionsController implements Initializable {
             interventionList.add(new Intervention(
                     resultSet.getInt("id"),
                     resultSet.getString("type"),
+                    resultSet.getString("description"),
                     resultSet.getString("teeth"),
                     resultSet.getInt("price"),
                     resultSet.getObject("intervened_at", LocalDate.class),

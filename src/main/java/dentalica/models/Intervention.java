@@ -8,13 +8,14 @@ public class Intervention {
     private Integer id;
     private Integer patientId;
     private String type;
+    private String description;
     private String teeth;
     private Integer price;
     private LocalDate intervenedAt;
     private String payed;
     private Instant createdAt;
 
-    public Intervention(Integer id, String type, String teeth, Integer price, LocalDate intervenedAt, String payed) {
+    public Intervention(Integer id, String type, String description, String teeth, Integer price, LocalDate intervenedAt, String payed) {
         this.id = id;
         this.type = type;
         this.teeth = teeth;
@@ -45,6 +46,14 @@ public class Intervention {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getTeeth() {
@@ -93,10 +102,11 @@ public class Intervention {
                 "id=" + id +
                 ", patientId=" + patientId +
                 ", type='" + type + '\'' +
+                ", description='" + description + '\'' +
                 ", teeth='" + teeth + '\'' +
-                ", price='" + price + '\'' +
+                ", price=" + price +
                 ", intervenedAt=" + intervenedAt +
-                ", payed=" + payed +
+                ", payed='" + payed + '\'' +
                 ", createdAt=" + createdAt +
                 '}';
     }
