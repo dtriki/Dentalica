@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 public class EditPatientController {
 
@@ -89,7 +90,7 @@ public class EditPatientController {
             var preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, nameFld.getText());
             preparedStatement.setString(2, surnameFld.getText());
-            preparedStatement.setDate(3, Date.valueOf(birthFld.getValue()));
+            preparedStatement.setDate(3, parseBirthDate(birthFld.getValue()));
             preparedStatement.setString(4, numberFld.getText());
             preparedStatement.setString(5, emailFld.getText());
             preparedStatement.setString(6, addressFld.getText());
@@ -98,6 +99,10 @@ public class EditPatientController {
             logger.error("Unable to edit patient ", e);
             throw new RuntimeException();
         }
+    }
+
+    private Date parseBirthDate(LocalDate birth) {
+        return birth != null ? Date.valueOf(birth) : null;
     }
 
 }

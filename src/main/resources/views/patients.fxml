@@ -26,6 +26,9 @@
                         <TableColumn fx:id="colName" prefWidth="75.0" text="Ime"/>
                         <TableColumn fx:id="colSurname" prefWidth="75.0" text="Prezime"/>
                         <TableColumn fx:id="colNumber" prefWidth="75.0" text="Telefon"/>
+                        <TableColumn fx:id="colEmail" prefWidth="75.0" text="Email"/>
+                        <TableColumn fx:id="colBirth" prefWidth="103.99993896484375" text="Datum rođenja"/>
+                        <TableColumn fx:id="colAddress" prefWidth="196.0" text="Adresa"/>
                     </columns>
                     <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>

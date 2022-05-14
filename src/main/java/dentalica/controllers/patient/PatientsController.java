@@ -44,6 +44,12 @@ public class PatientsController implements Initializable {
     @FXML
     private TableColumn<Patient, String> colNumber;
     @FXML
+    private TableColumn<Patient, String> colEmail;
+    @FXML
+    private TableColumn<Patient, LocalDate> colBirth;
+    @FXML
+    private TableColumn<Patient, String> colAddress;
+    @FXML
     private TextField searchFld;
 
     private ObservableList<Patient> patientList = FXCollections.observableArrayList();
@@ -72,6 +78,9 @@ public class PatientsController implements Initializable {
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colSurname.setCellValueFactory(new PropertyValueFactory<>("surname"));
         colNumber.setCellValueFactory(new PropertyValueFactory<>("number"));
+        colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        colBirth.setCellValueFactory(new PropertyValueFactory<>("birth"));
+        colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
     }
 
     private void populatePatientsTable(ResultSet resultSet) throws SQLException {
