@@ -15,7 +15,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         var fxmlLoader = new FXMLLoader(getClass().getResource(HOME_PATH));
-        var scene = new Scene(fxmlLoader.load(), 800, 700);
+        var scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
         stage.setResizable(false);
         stage.setTitle(TITLE);

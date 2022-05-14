@@ -22,6 +22,7 @@ public class Intervention {
         this.price = price;
         this.intervenedAt = intervenedAt;
         this.payed = payed;
+        this.description = description;
     }
 
     public Integer getId() {

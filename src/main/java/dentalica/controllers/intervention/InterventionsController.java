@@ -86,7 +86,7 @@ public class InterventionsController implements Initializable {
             var resultSet = preparedStatement.executeQuery();
             populateInterventionsTable(resultSet);
         } catch (SQLException ex) {
-            logger.error("Unable to connect to database");
+            logger.error("Unable to connect to database, cause: ", ex);
         }
         colType.setCellValueFactory(new PropertyValueFactory<>("type"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -169,6 +169,7 @@ public class InterventionsController implements Initializable {
         }
         AddInterventionController controller = loader.getController();
         controller.initData(patientId);
+        stage.setResizable(false);
         stage.show();
     }
 
@@ -190,6 +191,7 @@ public class InterventionsController implements Initializable {
         }
         EditInterventionController controller = loader.getController();
         controller.initData(intervention);
+        stage.setResizable(false);
         stage.show();
     }
 

@@ -46,7 +46,7 @@
                         <Font name="Century Gothic" size="21.0"/>
                     </font>
                 </Text>
-                <TextField fx:id="teethFld1" prefHeight="25.0" prefWidth="358.0">
+                <TextField fx:id="descriptionFld" prefHeight="25.0" prefWidth="358.0">
                     <font>
                         <Font name="Century Gothic" size="20.0"/>
                     </font>

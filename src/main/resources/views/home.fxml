@@ -3,13 +3,13 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            onMouseClicked="#switchToDashboard" prefHeight="700.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="dentalica.controllers.dashboard.HomeController">
+<AnchorPane onMouseClicked="#switchToDashboard" prefHeight="700.0" prefWidth="1172.0"
+            xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="dentalica.controllers.dashboard.HomeController">
    <children>
-      <ImageView fitHeight="391.0" fitWidth="433.0" layoutX="205.0" layoutY="155.0" onKeyPressed="#switchToDashboard"
-                 pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="154.0" AnchorPane.leftAnchor="204.8"
-                 AnchorPane.rightAnchor="204.0" AnchorPane.topAnchor="155.0">
+      <ImageView fitHeight="391.0" fitWidth="433.0" layoutX="391.0" layoutY="155.0" onKeyPressed="#switchToDashboard"
+                 pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="154.0" AnchorPane.leftAnchor="391.0"
+                 AnchorPane.rightAnchor="390.0" AnchorPane.topAnchor="155.0">
          <image>
             <Image url="@../pictures/dentalLogoWithText.jpg"/>
          </image>

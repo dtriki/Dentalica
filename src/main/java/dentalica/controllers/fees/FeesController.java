@@ -66,7 +66,7 @@ public class FeesController implements Initializable {
             var resultSet = preparedStatement.executeQuery();
             populateFeeTable(resultSet);
         } catch (SQLException ex) {
-            logger.error("Unable to connect to database");
+            logger.error("Unable to connect to database, cause: ", ex);
         }
         colPatientName.setCellValueFactory(new PropertyValueFactory<>("patientName"));
         colPatientSurname.setCellValueFactory(new PropertyValueFactory<>("patientSurname"));
@@ -124,6 +124,7 @@ public class FeesController implements Initializable {
         }
         InterventionsController controller = loader.getController();
         controller.initData(fee.getPatientId());
+        stage.setResizable(false);
         stage.show();
     }
 
