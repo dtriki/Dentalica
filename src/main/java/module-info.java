@@ -1,7 +1,6 @@
 module dentalica {
     requires javafx.controls;
     requires javafx.fxml;
-    requires javafx.web;
     requires org.postgresql.jdbc;
     requires org.slf4j;
     requires java.sql;

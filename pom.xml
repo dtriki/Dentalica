@@ -25,11 +25,6 @@
             <artifactId>javafx-fxml</artifactId>
             <version>18</version>
         </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-web</artifactId>
-            <version>18</version>
-        </dependency>
         <!-- Font awesome icon -->
         <dependency>
             <groupId>de.jensd</groupId>
