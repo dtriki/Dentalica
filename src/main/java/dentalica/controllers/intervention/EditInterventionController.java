@@ -111,12 +111,16 @@ public class EditInterventionController {
             logger.error("Unable to edit intervention ", e);
             throw new RuntimeException();
         }
-        var updatedIntervention = new Intervention(intervention.getId(), typeFld.getText(), descriptionFld.getText(), teethFld.getText(), preparePrice(priceFld.getText()), intervenedAtFld.getValue(), payedCheckBox.getText());
+        var updatedIntervention = new Intervention(intervention.getId(), typeFld.getText(), descriptionFld.getText(), teethFld.getText(), preparePrice(priceFld.getText()), intervenedAtFld.getValue(), mapPayedToString(payedCheckBox.isSelected()));
         updateInterventionTable(updatedIntervention);
     }
 
     private Integer preparePrice(String price) {
         return price.isEmpty() ? 0 : Integer.valueOf(priceFld.getText());
+    }
+
+    private String mapPayedToString(Boolean payed) {
+        return payed ? "Da" : "Ne";
     }
 
     private void updateInterventionTable(Intervention updatedIntervention) {

@@ -102,11 +102,15 @@ public class AddInterventionController {
             logger.error("Unable to insert intervention ", e);
             throw new RuntimeException();
         }
-        interventionList.add(new Intervention(interventionId, typeFld.getText(), descriptionFld.getText(), teethFld.getText(), preparePrice(priceFld.getText()), intervenedAtFld.getValue(), payedCheckBox.getText()));
+        interventionList.add(new Intervention(interventionId, typeFld.getText(), descriptionFld.getText(), teethFld.getText(), preparePrice(priceFld.getText()), intervenedAtFld.getValue(), mapPayedToString(payedCheckBox.isSelected())));
     }
 
     private Integer preparePrice(String price) {
         return price.isEmpty() ? 0 : Integer.valueOf(priceFld.getText());
+    }
+
+    private String mapPayedToString(Boolean payed) {
+        return payed ? "Da" : "Ne";
     }
 
     private Alert showSaveInterventionAlert(Alert alert) {
