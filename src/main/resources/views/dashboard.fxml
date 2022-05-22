@@ -9,7 +9,8 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<AnchorPane prefHeight="700.0" prefWidth="872.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane prefHeight="700.0" prefWidth="872.0" xmlns="http://javafx.com/javafx/16-ea"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="dentalica.controllers.dashboard.DashboardController">
    <children>
       <VBox prefHeight="700.0" prefWidth="272.0" style="-fx-background-color: #5033FF;">

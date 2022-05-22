@@ -11,11 +11,11 @@ import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.slf4j.Logger;
@@ -121,21 +121,28 @@ public class PatientsController implements Initializable {
 
     @FXML
     private void getAddPatientView(MouseEvent event) {
-        var parent = loadFxml(Constants.BASE_FXML_URL + ADD_PATIENT_FXML_URL);
-        var scene = new Scene(parent);
+        var fxmlLoader = new FXMLLoader(getClass().getResource(Constants.BASE_FXML_URL + ADD_PATIENT_FXML_URL));
+        var scene = initScene(fxmlLoader);
+        AddPatientController addPatientController = fxmlLoader.getController();
+        addPatientController.setPatientList(patientList);
+        loadStage("Dodaj pacijenta", scene);
+    }
+
+    private void loadStage(String title, Scene scene) {
         var stage = new Stage();
+        stage.setTitle(title);
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
         stage.initStyle(StageStyle.DECORATED);
         stage.setResizable(false);
         stage.show();
     }
 
-    private Parent loadFxml(String viewPath) {
+    private Scene initScene(FXMLLoader fxmlLoader) {
         try {
-            return FXMLLoader.load(getClass().getResource(viewPath));
+            return new Scene(fxmlLoader.load());
         } catch (IOException e) {
-            logger.error("Unable to load fxml view, path: " + viewPath, e);
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 
@@ -160,19 +167,13 @@ public class PatientsController implements Initializable {
 
     @FXML
     private void getEditPatientView(MouseEvent event) {
+        var fxmlLoader = new FXMLLoader(getClass().getResource(Constants.BASE_FXML_URL + EDIT_PATIENT_FXML_URL));
+        var scene = initScene(fxmlLoader);
         var patient = patientsTable.getSelectionModel().getSelectedItem();
-        var viewPath = Constants.BASE_FXML_URL + EDIT_PATIENT_FXML_URL;
-        var loader = new FXMLLoader(getClass().getResource(viewPath));
-        var stage = new Stage(StageStyle.DECORATED);
-        try {
-            stage.setScene(new Scene(loader.load()));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        EditPatientController controller = loader.getController();
-        controller.initData(patient);
-        stage.setResizable(false);
-        stage.show();
+        EditPatientController editPatientController = fxmlLoader.getController();
+        editPatientController.initData(patient);
+        editPatientController.setPatientList(patientList);
+        loadStage("Uredi pacijenta", scene);
     }
 
     @FXML

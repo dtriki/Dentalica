@@ -2,7 +2,9 @@ package dentalica.controllers.intervention;
 
 import dentalica.models.Intervention;
 import dentalica.util.DBUtil;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
@@ -23,6 +25,8 @@ public class EditInterventionController {
     @FXML
     private TextField typeFld;
     @FXML
+    private TextField descriptionFld;
+    @FXML
     private TextField teethFld;
     @FXML
     private DatePicker intervenedAtFld;
@@ -33,13 +37,20 @@ public class EditInterventionController {
 
     private Intervention intervention;
 
+    private ObservableList<Intervention> interventionList;
+
     public void setIntervention(Intervention intervention) {
         this.intervention = intervention;
+    }
+
+    public void setInterventionList(ObservableList<Intervention> interventionList) {
+        this.interventionList = interventionList;
     }
 
     public void initData(Intervention intervention) {
         setIntervention(intervention);
         typeFld.setText(intervention.getType());
+        descriptionFld.setText(intervention.getDescription());
         teethFld.setText(intervention.getTeeth());
         intervenedAtFld.setValue(intervention.getIntervenedAt());
         priceFld.setText(intervention.getPrice().toString());
@@ -62,13 +73,14 @@ public class EditInterventionController {
             alert = showSaveInterventionAlert(alert);
         }
         if (alert == null) {
-            closeView();
+            closeView(event);
         }
     }
 
     @FXML
     private void cleanFields() {
         typeFld.setText(null);
+        descriptionFld.setText(null);
         teethFld.setText(null);
         intervenedAtFld.setValue(null);
         priceFld.setText(null);
@@ -79,6 +91,7 @@ public class EditInterventionController {
         var connection = DBUtil.connect();
         var query = "UPDATE application.intervention SET " +
                 "type = ?, " +
+                "description = ?, " +
                 "teeth = ?, " +
                 "price = ?, " +
                 "intervened_at = ?, " +
@@ -88,19 +101,30 @@ public class EditInterventionController {
         try {
             var preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, typeFld.getText());
-            preparedStatement.setString(2, teethFld.getText());
-            preparedStatement.setInt(3, preparePrice(priceFld.getText()));
-            preparedStatement.setObject(4, intervenedAtFld.getValue());
-            preparedStatement.setBoolean(5, payedd);
+            preparedStatement.setString(2, descriptionFld.getText());
+            preparedStatement.setString(3, teethFld.getText());
+            preparedStatement.setInt(4, preparePrice(priceFld.getText()));
+            preparedStatement.setObject(5, intervenedAtFld.getValue());
+            preparedStatement.setBoolean(6, payedd);
             preparedStatement.execute();
         } catch (SQLException e) {
             logger.error("Unable to edit intervention ", e);
             throw new RuntimeException();
         }
+        var updatedIntervention = new Intervention(intervention.getId(), typeFld.getText(), descriptionFld.getText(), teethFld.getText(), preparePrice(priceFld.getText()), intervenedAtFld.getValue(), payedCheckBox.getText());
+        updateInterventionTable(updatedIntervention);
     }
 
     private Integer preparePrice(String price) {
         return price.isEmpty() ? 0 : Integer.valueOf(priceFld.getText());
+    }
+
+    private void updateInterventionTable(Intervention updatedIntervention) {
+        for (var i = 0; i < interventionList.size(); i++) {
+            if (intervention.getId() == interventionList.get(i).getId()) {
+                interventionList.set(i, updatedIntervention);
+            }
+        }
     }
 
     private Alert showSaveInterventionAlert(Alert alert) {
@@ -111,9 +135,10 @@ public class EditInterventionController {
         return alert;
     }
 
-    private void closeView() {
-        var thisStage = (Stage) typeFld.getScene().getWindow();
-        thisStage.close();
+    private void closeView(MouseEvent event) {
+        var node = (Node) event.getSource();
+        var stage = (Stage) node.getScene().getWindow();
+        stage.close();
     }
 
 }

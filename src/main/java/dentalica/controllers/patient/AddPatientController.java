@@ -1,7 +1,10 @@
 package dentalica.controllers.patient;
 
+import dentalica.models.Patient;
 import dentalica.util.DBUtil;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -33,6 +36,12 @@ public class AddPatientController {
     @FXML
     private TextField addressFld;
 
+    private ObservableList<Patient> patientList;
+
+    public void setPatientList(ObservableList<Patient> patientList) {
+        this.patientList = patientList;
+    }
+
     @FXML
     private void savePatient(MouseEvent event) {
         Alert alert = null;
@@ -46,27 +55,35 @@ public class AddPatientController {
             alert = showSavePatientAlert(alert);
         }
         if (alert == null) {
-            closeView();
+            closeView(event);
         }
     }
 
     private void insert() {
+        Integer patientId = null;
         var connection = DBUtil.connect();
-        var query = "INSERT INTO application.patient (name, surname, birth, number, email, address, created_at) VALUES (?,?,?,?,?,?,?)";
+        var insertQuery = "INSERT INTO application.patient (name, surname, birth, number, email, address, created_at) VALUES (?,?,?,?,?,?,?)";
+        var selectQuery = "SELECT * FROM application.patient p ORDER BY p.created_at desc LIMIT 1";
         try {
-            var preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, nameFld.getText());
-            preparedStatement.setString(2, surnameFld.getText());
-            preparedStatement.setDate(3, parseBirthDate(birthFld.getValue()));
-            preparedStatement.setString(4, numberFld.getText());
-            preparedStatement.setString(5, emailFld.getText());
-            preparedStatement.setString(6, addressFld.getText());
-            preparedStatement.setObject(7, Timestamp.from(Instant.now()));
-            preparedStatement.execute();
+            var preparedInsertStatement = connection.prepareStatement(insertQuery);
+            preparedInsertStatement.setString(1, nameFld.getText());
+            preparedInsertStatement.setString(2, surnameFld.getText());
+            preparedInsertStatement.setDate(3, parseBirthDate(birthFld.getValue()));
+            preparedInsertStatement.setString(4, numberFld.getText());
+            preparedInsertStatement.setString(5, emailFld.getText());
+            preparedInsertStatement.setString(6, addressFld.getText());
+            preparedInsertStatement.setObject(7, Timestamp.from(Instant.now()));
+            preparedInsertStatement.execute();
+            var preparedSelectStatement = connection.prepareStatement(selectQuery);
+            var resultSet = preparedSelectStatement.executeQuery();
+            if (resultSet.next()) {
+                patientId = resultSet.getInt("id");
+            }
         } catch (SQLException e) {
             logger.error("Unable to insert patient ", e);
             throw new RuntimeException();
         }
+        patientList.add(new Patient(patientId, nameFld.getText(), surnameFld.getText(), birthFld.getValue(), numberFld.getText(), emailFld.getText(), addressFld.getText()));
     }
 
     private Date parseBirthDate(LocalDate birth) {
@@ -91,9 +108,10 @@ public class AddPatientController {
         return alert;
     }
 
-    private void closeView() {
-        var thisStage = (Stage) nameFld.getScene().getWindow();
-        thisStage.close();
+    private void closeView(MouseEvent event) {
+        var node = (Node) event.getSource();
+        var stage = (Stage) node.getScene().getWindow();
+        stage.close();
     }
 
 }

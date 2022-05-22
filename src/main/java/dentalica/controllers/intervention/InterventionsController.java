@@ -15,6 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
@@ -159,18 +160,29 @@ public class InterventionsController implements Initializable {
 
     @FXML
     private void getAddInterventionView(MouseEvent event) {
-        var viewPath = Constants.BASE_FXML_URL + ADD_INTERVENTION_FXML_URL;
-        var loader = new FXMLLoader(getClass().getResource(viewPath));
+        var fxmlLoader = new FXMLLoader(getClass().getResource(Constants.BASE_FXML_URL + ADD_INTERVENTION_FXML_URL));
+        var scene = initScene(fxmlLoader);
+        AddInterventionController addInterventionController = fxmlLoader.getController();
+        addInterventionController.initData(patientId);
+        addInterventionController.setInterventionList(interventionList);
+        loadStage("Dodaj intervenciju", scene);
+    }
+
+    private void loadStage(String title, Scene scene) {
         var stage = new Stage(StageStyle.DECORATED);
+        stage.setTitle(title);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
+    }
+
+    private Scene initScene(FXMLLoader fxmlLoader) {
         try {
-            stage.setScene(new Scene(loader.load()));
+            return new Scene(fxmlLoader.load());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        AddInterventionController controller = loader.getController();
-        controller.initData(patientId);
-        stage.setResizable(false);
-        stage.show();
     }
 
     @FXML
@@ -181,18 +193,12 @@ public class InterventionsController implements Initializable {
     @FXML
     private void getEditInterventionView(MouseEvent event) {
         var intervention = interventionsTable.getSelectionModel().getSelectedItem();
-        var viewPath = Constants.BASE_FXML_URL + EDIT_INTERVENTION_FXML_URL;
-        var loader = new FXMLLoader(getClass().getResource(viewPath));
-        var stage = new Stage(StageStyle.DECORATED);
-        try {
-            stage.setScene(new Scene(loader.load()));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        EditInterventionController controller = loader.getController();
+        var fxmlLoader = new FXMLLoader(getClass().getResource(Constants.BASE_FXML_URL + EDIT_INTERVENTION_FXML_URL));
+        var scene = initScene(fxmlLoader);
+        EditInterventionController controller = fxmlLoader.getController();
         controller.initData(intervention);
-        stage.setResizable(false);
-        stage.show();
+        controller.setInterventionList(interventionList);
+        loadStage("Uredi intervenciju", scene);
     }
 
     @FXML

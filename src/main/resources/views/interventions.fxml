@@ -6,7 +6,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<AnchorPane prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/16-ea"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="dentalica.controllers.intervention.InterventionsController">
     <children>
         <GridPane layoutY="223.0" prefHeight="475.0" prefWidth="900.0">

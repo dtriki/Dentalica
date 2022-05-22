@@ -1,7 +1,10 @@
 package dentalica.controllers.intervention;
 
+import dentalica.models.Intervention;
 import dentalica.util.DBUtil;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
@@ -22,6 +25,8 @@ public class AddInterventionController {
     @FXML
     private TextField typeFld;
     @FXML
+    private TextField descriptionFld;
+    @FXML
     private TextField teethFld;
     @FXML
     private DatePicker intervenedAtFld;
@@ -32,8 +37,14 @@ public class AddInterventionController {
 
     private Integer patientId;
 
+    private ObservableList<Intervention> interventionList;
+
     public void setPatientId(Integer patientId) {
         this.patientId = patientId;
+    }
+
+    public void setInterventionList(ObservableList<Intervention> interventionList) {
+        this.interventionList = interventionList;
     }
 
     public void initData(Integer patientId) {
@@ -52,13 +63,14 @@ public class AddInterventionController {
             alert = showSaveInterventionAlert(alert);
         }
         if (alert == null) {
-            closeView();
+            closeView(event);
         }
     }
 
     @FXML
     private void cleanFields() {
         typeFld.setText(null);
+        descriptionFld.setText(null);
         teethFld.setText(null);
         intervenedAtFld.setValue(null);
         priceFld.setText(null);
@@ -66,22 +78,31 @@ public class AddInterventionController {
     }
 
     private void insert() {
+        Integer interventionId = null;
         var connection = DBUtil.connect();
-        var query = "INSERT INTO application.intervention (patient_id, type, teeth, price, intervened_at, payed, created_at) VALUES (?,?,?,?,?,?,?)";
+        var insertQuery = "INSERT INTO application.intervention (patient_id, type, description, teeth, price, intervened_at, payed, created_at) VALUES (?,?,?,?,?,?,?,?)";
+        var selectQuery = "SELECT * FROM application.intervention i ORDER BY i.created_at desc LIMIT 1";
         try {
-            var preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, patientId);
-            preparedStatement.setString(2, typeFld.getText());
-            preparedStatement.setString(3, teethFld.getText());
-            preparedStatement.setInt(4, preparePrice(priceFld.getText()));
-            preparedStatement.setObject(5, intervenedAtFld.getValue());
-            preparedStatement.setBoolean(6, payedCheckBox.isSelected());
-            preparedStatement.setObject(7, Timestamp.from(Instant.now()));
-            preparedStatement.execute();
+            var preparedInsertStatement = connection.prepareStatement(insertQuery);
+            preparedInsertStatement.setInt(1, patientId);
+            preparedInsertStatement.setString(2, typeFld.getText());
+            preparedInsertStatement.setString(3, descriptionFld.getText());
+            preparedInsertStatement.setString(4, teethFld.getText());
+            preparedInsertStatement.setInt(5, preparePrice(priceFld.getText()));
+            preparedInsertStatement.setObject(6, intervenedAtFld.getValue());
+            preparedInsertStatement.setBoolean(7, payedCheckBox.isSelected());
+            preparedInsertStatement.setObject(8, Timestamp.from(Instant.now()));
+            preparedInsertStatement.execute();
+            var preparedSelectStatement = connection.prepareStatement(selectQuery);
+            var resultSet = preparedSelectStatement.executeQuery();
+            if (resultSet.next()) {
+                interventionId = resultSet.getInt("id");
+            }
         } catch (SQLException e) {
             logger.error("Unable to insert intervention ", e);
             throw new RuntimeException();
         }
+        interventionList.add(new Intervention(interventionId, typeFld.getText(), descriptionFld.getText(), teethFld.getText(), preparePrice(priceFld.getText()), intervenedAtFld.getValue(), payedCheckBox.getText()));
     }
 
     private Integer preparePrice(String price) {
@@ -96,9 +117,10 @@ public class AddInterventionController {
         return alert;
     }
 
-    private void closeView() {
-        var thisStage = (Stage) typeFld.getScene().getWindow();
-        thisStage.close();
+    private void closeView(MouseEvent event) {
+        var node = (Node) event.getSource();
+        var stage = (Stage) node.getScene().getWindow();
+        stage.close();
     }
 
 }

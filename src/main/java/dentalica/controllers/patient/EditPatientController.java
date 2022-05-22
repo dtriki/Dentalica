@@ -2,6 +2,7 @@ package dentalica.controllers.patient;
 
 import dentalica.models.Patient;
 import dentalica.util.DBUtil;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
@@ -34,8 +35,14 @@ public class EditPatientController {
 
     private Patient patient;
 
+    private ObservableList<Patient> patientList;
+
     public void setPatient(Patient patient) {
         this.patient = patient;
+    }
+
+    public void setPatientList(ObservableList<Patient> patientList) {
+        this.patientList = patientList;
     }
 
     public void initData(Patient patient) {
@@ -99,10 +106,20 @@ public class EditPatientController {
             logger.error("Unable to edit patient ", e);
             throw new RuntimeException();
         }
+        var updatedPatient = new Patient(patient.getId(), nameFld.getText(), surnameFld.getText(), birthFld.getValue(), numberFld.getText(), emailFld.getText(), addressFld.getText());
+        updatePatientTable(updatedPatient);
     }
 
     private Date parseBirthDate(LocalDate birth) {
         return birth != null ? Date.valueOf(birth) : null;
+    }
+
+    private void updatePatientTable(Patient updatedPatient) {
+        for (var i = 0; i < patientList.size(); i++) {
+            if (patient.getId() == patientList.get(i).getId()) {
+                patientList.set(i, updatedPatient);
+            }
+        }
     }
 
 }

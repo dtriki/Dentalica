@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="471.0" prefWidth="371.0" styleClass="btn" xmlns="http://javafx.com/javafx/18"
+      prefHeight="471.0" prefWidth="371.0" styleClass="btn" xmlns="http://javafx.com/javafx/16-ea"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="dentalica.controllers.intervention.AddInterventionController">
     <children>
         <HBox prefHeight="38.0" prefWidth="355.0">
